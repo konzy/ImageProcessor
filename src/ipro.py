@@ -8,6 +8,7 @@ import StringIO
 __author__ = 'konzy'
 filters = [ImageFilter.BLUR, ImageFilter.EDGE_ENHANCE, ImageFilter.SMOOTH, ImageFilter.GaussianBlur,
            ImageFilter.SHARPEN, ImageFilter.DETAIL, ImageFilter.EDGE_ENHANCE_MORE]
+enhancements = [[""]*10 for i in range(2)]
 
 
 def filter_image(image, i_filter):
@@ -15,28 +16,30 @@ def filter_image(image, i_filter):
     f, e = os.path.splitext(inf)
     outfile = f + str(i_filter) + e
 
-    if infile != outfile:
-        try:
-            Image.open(infile).save(outfile)
-        except IOError:
-            print("cannot convert", infile)
+    try:
+        Image.open(infile).save(outfile)
+    except IOError:
+        print("cannot convert", infile)
 
 
 def string_to_image():
     return Image.open(StringIO.StringIO(buffer))
 
 
+factor = 1.1
 for inf in sys.argv[1:]:
 
     im = Image.open(inf)
-    # noinspection PyTypeChecker
     for i in range(len(filters)):
         filter_image(inf, filters[i])
-    contrast = ImageEnhance.Contrast(im)
-    color = ImageEnhance.Color(im)
-    contrast.enhance(1.3).show("30% More contrast")
 
-    rotated = im.rotate(10)
+    degrees = (factor - 1) * 100
+    enhancements[0][0] = ImageEnhance.Contrast(im).enhance(factor)
+    enhancements[0][1] = "contrast"
+
+    color = ImageEnhance.Color(im).enhance(factor)
+    rotatedPos = im.rotate(degrees)
+    rotatedNeg = im.rotate(-degrees)
 
 
 
