@@ -36,13 +36,12 @@ for inf in sys.argv[1:]:
     degrees = (factor - 1) * 100
     enhancements[0][0] = ImageEnhance.Contrast(im).enhance(factor)
     enhancements[0][1] = "contrast"
-
-    color = ImageEnhance.Color(im).enhance(factor)
-    rotatedPos = im.rotate(degrees)
-    rotatedNeg = im.rotate(-degrees)
-
-
-
+    enhancements[1][0] = ImageEnhance.Color(im).enhance(factor)
+    enhancements[1][1] = "color"
+    enhancements[2][0] = im.rotate(degrees)
+    enhancements[2][1] = "rotate_positive"
+    enhancements[3][0] = im.rotate(-degrees)
+    enhancements[3][1] = "rotate_negative"
 
 # PIL Modes
 # 1 (1-bit pixels, black and white, stored with one pixel per byte)
