@@ -11,37 +11,31 @@ filters = [ImageFilter.BLUR, ImageFilter.EDGE_ENHANCE, ImageFilter.SMOOTH, Image
 enhancements = [[""]*10 for i in range(2)]
 
 
-def filter_image(image, i_filter):
-    infile = image.filter(i_filter)
-    f, e = os.path.splitext(infile)
-    outfile = f + str(i_filter) + e
-
-    try:
-        Image.open(infile).save(outfile)
-    except IOError:
-        print("cannot convert", infile)
-
-
 def string_to_image():
     return Image.open(StringIO.StringIO(buffer))
 
-
 factor = 1.1
-for inf in sys.argv[1:]:
+for infile in sys.argv[1:]:
+    f, e = os.path.splitext(infile)
 
-    im = Image.open(inf)
-    for i in range(len(filters)):
-        filter_image(inf, filters[i])
+    try:
+        blur = Image.open(infile)
+        blur = blur.filter(ImageFilter.BLUR)
+        outfile = f + "blur_" + e
+        blur.save(outfile)
+    except IOError:
+        print("cannot apply filter blur", infile)
 
+    im = Image.open(infile)
     degrees = (factor - 1) * 100
     enhancements[0][0] = ImageEnhance.Contrast(im).enhance(factor)
-    enhancements[0][1] = "contrast"
-    enhancements[1][0] = ImageEnhance.Color(im).enhance(factor)
+    enhancements[1][0] = "contrast"
+    enhancements[0][1] = ImageEnhance.Color(im).enhance(factor)
     enhancements[1][1] = "color"
-    enhancements[2][0] = im.rotate(degrees)
-    enhancements[2][1] = "rotate_positive"
-    enhancements[3][0] = im.rotate(-degrees)
-    enhancements[3][1] = "rotate_negative"
+    enhancements[0][2] = im.rotate(degrees)
+    enhancements[1][2] = "rotate_positive"
+    enhancements[0][3] = im.rotate(-degrees)
+    enhancements[1][3] = "rotate_negative"
 
 # PIL Modes
 # 1 (1-bit pixels, black and white, stored with one pixel per byte)
