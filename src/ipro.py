@@ -13,7 +13,7 @@ enhancements = [[""]*10 for i in range(2)]
 
 def filter_image(image, i_filter):
     infile = image.filter(i_filter)
-    f, e = os.path.splitext(inf)
+    f, e = os.path.splitext(infile)
     outfile = f + str(i_filter) + e
 
     try:
