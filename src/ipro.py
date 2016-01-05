@@ -4,6 +4,7 @@ from PIL import ImageEnhance
 import os
 import sys
 import StringIO
+import re
 
 __author__ = 'konzy'
 filters = [ImageFilter.BLUR, ImageFilter.EDGE_ENHANCE, ImageFilter.SMOOTH, ImageFilter.GaussianBlur,
@@ -17,14 +18,20 @@ def string_to_image():
 factor = 1.1
 for infile in sys.argv[1:]:
     f, e = os.path.splitext(infile)
+    filter_name = ""
+    for filtr in filters:
+        try:
+            out = Image.open(infile)
+            out = out.filter(filtr)
 
-    try:
-        blur = Image.open(infile)
-        blur = blur.filter(ImageFilter.BLUR)
-        outfile = f + "blur_" + e
-        blur.save(outfile)
-    except IOError:
-        print("cannot apply filter blur", infile)
+            name = str(filtr)
+            filter_split = re.split("\.|\\'", name)
+            filter_name = filter_split[3].lower()
+
+            outfile = f + "_" + filter_name + e
+            out.save(outfile)
+        except IOError:
+            print("cannot apply filter " + filter_name, infile)
 
     im = Image.open(infile)
     degrees = (factor - 1) * 100
