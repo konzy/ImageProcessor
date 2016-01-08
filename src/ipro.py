@@ -17,7 +17,9 @@ def string_to_image():
 
 factor = 1.1
 
-for infile in os.listdir(os.getcwd()):
+print(os.getcwd())
+exit(1)
+for infile in os.listdir(os.path.abspath(os.curdir())):
     f, e = os.path.splitext(infile)
     filter_name = ""
     if str(e) == ".jpg":
@@ -35,16 +37,16 @@ for infile in os.listdir(os.getcwd()):
             except IOError:
                 print("cannot apply filter " + filter_name, infile)
 
-    im = Image.open(infile)
-    degrees = (factor - 1) * 100
-    enhancements[0][0] = ImageEnhance.Contrast(im).enhance(factor)
-    enhancements[1][0] = "contrast"
-    enhancements[0][1] = ImageEnhance.Color(im).enhance(factor)
-    enhancements[1][1] = "color"
-    enhancements[0][2] = im.rotate(degrees)
-    enhancements[1][2] = "rotate_positive"
-    enhancements[0][3] = im.rotate(-degrees)
-    enhancements[1][3] = "rotate_negative"
+#    im = Image.open(infile)
+#    degrees = (factor - 1) * 100
+#    enhancements[0][0] = ImageEnhance.Contrast(im).enhance(factor)
+#    enhancements[1][0] = "contrast"
+#    enhancements[0][1] = ImageEnhance.Color(im).enhance(factor)
+#    enhancements[1][1] = "color"
+#    enhancements[0][2] = im.rotate(degrees)
+#    enhancements[1][2] = "rotate_positive"
+#    enhancements[0][3] = im.rotate(-degrees)
+#    enhancements[1][3] = "rotate_negative"
 
 # PIL Modes
 # 1 (1-bit pixels, black and white, stored with one pixel per byte)
