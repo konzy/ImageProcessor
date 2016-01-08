@@ -17,9 +17,7 @@ def string_to_image():
 
 factor = 1.1
 
-print(os.getcwd())
-exit(1)
-for infile in os.listdir(os.path.abspath(os.curdir())):
+for infile in os.listdir(os.getcwd()):
     f, e = os.path.splitext(infile)
     filter_name = ""
     if str(e) == ".jpg":
