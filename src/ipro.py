@@ -21,6 +21,7 @@ for infile in os.listdir(os.getcwd()):
     print('Processing file ' + str(infile))
     f, e = os.path.splitext(infile)
     filter_name = ""
+    print(str(e))
     if str(e) == ".jpg":
         for filtr in filters:
             try:
