@@ -17,11 +17,15 @@ def string_to_image():
 
 factor = 1.1
 
-for infile in os.listdir(os.getcwd()):
-    print('Processing file ' + str(infile))
+files = sorted(os.listdir(os.getcwd()))
+num_files = len(files)
+count = 0
+
+for infile in files:
+    count += 1
+    print('Processing file ' + str(infile) + ' ' + str(count) + ' of ' + str(num_files))
     f, e = os.path.splitext(infile)
     filter_name = ""
-    print(str(e))
     if str(e) == ".jpg":
         for filtr in filters:
             try:
