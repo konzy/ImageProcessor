@@ -16,22 +16,24 @@ def string_to_image():
     return Image.open(StringIO.StringIO(buffer))
 
 factor = 1.1
-for infile in sys.argv[1:]:
+
+for infile in os.listdir(os.getcwd()):
     f, e = os.path.splitext(infile)
     filter_name = ""
-    for filtr in filters:
-        try:
-            out = Image.open(infile)
-            out = out.filter(filtr)
+    if str(e) == ".jpg":
+        for filtr in filters:
+            try:
+                out = Image.open(infile)
+                out = out.filter(filtr)
 
-            name = str(filtr)
-            filter_split = re.split("\.|\\'", name)
-            filter_name = filter_split[3].lower()
+                name = str(filtr)
+                filter_split = re.split("\.|\\'", name)
+                filter_name = filter_split[3].lower()
 
-            outfile = f + "_" + filter_name + e
-            out.save(outfile)
-        except IOError:
-            print("cannot apply filter " + filter_name, infile)
+                outfile = f + "_" + filter_name + e
+                out.save(outfile)
+            except IOError:
+                print("cannot apply filter " + filter_name, infile)
 
     im = Image.open(infile)
     degrees = (factor - 1) * 100
